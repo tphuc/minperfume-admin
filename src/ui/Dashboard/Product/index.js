@@ -12,7 +12,7 @@ import { CloudinaryAPI } from '../../../framework/cloudinary';
 import { Tag } from "baseui/tag";
 import { parseLabelPrice, toArray, toObject, urlToFile } from '../../../util';
 import { serverTimestamp } from '../../../framework/firebase';
-import { AiFillMinusCircle, AiFillPlusCircle, AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineStar, AiTwotonePlusCircle } from 'react-icons/ai';
+import { AiFillMinusCircle, AiFillPlusCircle, AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineRise, AiOutlineShop, AiOutlineStar, AiTwotonePlusCircle } from 'react-icons/ai';
 import { useStyletron } from 'baseui';
 import SearchBar from '../../../components/SearchBar';
 import { where, orderBy } from 'firebase/firestore';
@@ -81,6 +81,22 @@ export default function Product() {
       let res = await ProductsCRUD.update(id, {
           starred: data
       });
+      enqueue({
+        message: 'Sửa thành công!',
+      })
+      mutate()
+      return true
+    }
+    catch (e) {
+      console.log(e)
+    }
+
+
+  }
+
+  const editProduct = async (id, data) => {
+    try {
+      let res = await ProductsCRUD.update(id, data);
       enqueue({
         message: 'Sửa thành công!',
       })
@@ -233,7 +249,7 @@ export default function Product() {
         item.categories?.map(item => item.label).join(','),
         <CellWrap>{item.variants?.map(item => <CellTag closeable={false}>{item.label}</CellTag>)}</CellWrap>,
         <ImagesList images={item.images} />,
-        <>
+        <div style={{display:"flex", flexWrap:"wrap"}}>
           <ActDelete onConfirm={() => onDelete(item)} />
           <ActEdit fields={[
             {
@@ -314,8 +330,9 @@ export default function Product() {
             }
           ]} onConfirm={(data) => onEdit(item.id, data)} />
           <ActCustom header='Lên trang chính' onClick={() => editProductHighlight(item.id, !item?.starred)} icon={<AiFillStar color={item?.starred ? theme.colors.accent500 : theme.colors.mono500}/>}/>
-
-        </>
+          <ActCustom header='New?' onClick={() => editProduct(item.id,{ isNew: !item?.isNew })} icon={<AiOutlineShop color={item?.isNew ? theme.colors.accent500 : theme.colors.mono500}/>}/>
+          <ActCustom header='New?' onClick={() => editProduct(item.id,{ isHot: !item?.isHot })} icon={<AiOutlineRise color={item?.isHot ? theme.colors.accent500 : theme.colors.mono500}/>}/>
+        </div>
       ]}
     />
 
