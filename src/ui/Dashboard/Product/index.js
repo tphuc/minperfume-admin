@@ -330,8 +330,8 @@ export default function Product() {
             }
           ]} onConfirm={(data) => onEdit(item.id, data)} />
           <ActCustom header='Lên trang chính' onClick={() => editProductHighlight(item.id, !item?.starred)} icon={<AiFillStar color={item?.starred ? theme.colors.accent500 : theme.colors.mono500}/>}/>
-          <ActCustom header='New?' onClick={() => editProduct(item.id,{ isNew: !item?.isNew })} icon={<AiOutlineShop color={item?.isNew ? theme.colors.accent500 : theme.colors.mono500}/>}/>
-          <ActCustom header='New?' onClick={() => editProduct(item.id,{ isHot: !item?.isHot })} icon={<AiOutlineRise color={item?.isHot ? theme.colors.accent500 : theme.colors.mono500}/>}/>
+          <ActCustom header='New?' onClick={() => editProduct(item.id,{ isNew: !item?.isNew })} icon={<span style={{color: item?.isNew ? theme.colors.accent500 : theme.colors.mono500, fontSize:"small" }}>new</span>}/>
+          <ActCustom header='Sale?' onClick={() => editProduct(item.id,{ isHot: !item?.isHot })} icon={<span style={{color: item?.isNew ? theme.colors.accent500 : theme.colors.mono500, fontSize:"small" }}>sale</span>}/>
         </div>
       ]}
     />
